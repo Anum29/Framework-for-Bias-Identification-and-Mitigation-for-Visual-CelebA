@@ -32,6 +32,6 @@ List any prerequisites or software that needs to be installed before getting sta
 
 For the stable diffusion model, the python version should be > 3.6
 
-Run the file  './Analytics/Data Pipeline.ipynb' to observe output before and after data augmentation.
+Run the file  `'./Analytics/Data Pipeline.ipynb'` to observe output before and after data augmentation.
 
 
