@@ -15,7 +15,7 @@ The proliferation of data-driven decision-support systems has significantly impr
 ![Alt Text](./architecture.jpg)
 
 
-Initially, the CelebA image dataset undergoes annotation, utilizing the deepface API to identify protected attributes. This annotated dataset is subsequently subjected to the model's evaluation to identify misclassified instances. These misclassified samples are then utilized within a stable diffusion model to generate  data, which is subsequently augmented to the original dataset. The performance of the classifier is carefully examined before and after the data augmentation process to assess its influence.
+Initially, the CelebA image dataset undergoes annotation, utilizing the deepface API to identify protected attributes. This annotated dataset is subsequently subjected to the model's evaluation to identify misclassified instances. These misclassified samples are then utilized within a stable diffusion model to generate  data, which is subsequently augmented to the original dataset. The performance of the classifier is carefully examined before and after the data augmentation process to assess its impact on the classification accuracy.
 
 ## Getting Started
 
