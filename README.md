@@ -32,6 +32,3 @@ List any prerequisites or software that needs to be installed before getting sta
 For the stable diffusion model, the python version should be > 3.6
 
 Run the code in the './Analytics/Data Pipeline.ipynb'
-
-# Framework-for-Bias-Identification-and-Mitigation-for-Visual-CelebA
-# Test
