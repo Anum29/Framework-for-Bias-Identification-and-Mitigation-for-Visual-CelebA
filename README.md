@@ -12,7 +12,7 @@ Bias identification and mitigation in visual datasets
 
 The proliferation of data-driven decision-support systems has significantly improved decision-making across diverse sectors. However, these systems can unintentionally create unfair outcomes due to biases present in the data. This research focuses on addressing biases in facial expression, gender, and race recognition, specifically using the CelebA dataset. To tackle these biases, the study suggests a framework to generate synthetic data using a stable diffusion model and examines how this affects the performance of the classifier.
 
-![Alt Text](./architectural diagram.jpg)
+![Alt Text](./architecture.jpg)
 
 
 
