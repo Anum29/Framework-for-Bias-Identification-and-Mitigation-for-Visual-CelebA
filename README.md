@@ -32,10 +32,6 @@ List any prerequisites or software that needs to be installed before getting sta
 
 For the stable diffusion model, the python version should be > 3.6
 
-Run the code in the './Analytics/Data Pipeline.ipynb'
-
-Initially, the CelebA image dataset undergoes annotation, utilizing the deepface API to identify protected attributes. This annotated dataset is subsequently subjected to the model's evaluation to identify misclassified instances. These misclassified samples are then utilized within a stable diffusion model to generate  data, which is subsequently augmented to the original dataset. The performance of the classifier is carefully examined before and after the data augmentation process to assess its influence.
-
-![Uploading image.png…]()
+Run the file  './Analytics/Data Pipeline.ipynb' to observe output before and after data augmentation.
 
 
