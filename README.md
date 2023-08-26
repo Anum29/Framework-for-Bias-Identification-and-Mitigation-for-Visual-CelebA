@@ -1,4 +1,4 @@
-# Unveiling Fairness: A Framework for Bias Quantification, Underrepresented Image Generation, and Enhanced Multi-Label Classification in Facial Image Datasets
+# Unveiling Fairness: A Framework for Bias Identification and Mitigation in Facial Image Datasets
 
 Bias identification and mitigation in visual datasets
 
