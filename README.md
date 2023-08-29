@@ -6,7 +6,6 @@ Bias identification and mitigation in visual datasets
 
 - [Introduction](#introduction)
 - [Getting Started](#getting-started)
-- [Usage](#usage)
 
 ## Introduction
 
