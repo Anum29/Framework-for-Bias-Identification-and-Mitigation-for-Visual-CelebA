@@ -16,7 +16,7 @@ The proposed framework involves generating synthetic data using a stable diffusi
 <div style="text-align: center;">
     <img src="./architecture.jpg" alt="Architecture" />
 </div>
-The pipeline commences with the annotation of the CelebA image dataset. Leveraging the deepface API, the dataset is enriched with annotations that capture protected attributes such as race and gender. Subsequently, a comprehensive evaluation of the classifier is conducted to identify instances that are misclassified due to biases.
+The pipeline commences with the annotation of the CelebA image dataset. Leveraging the deepface API, the dataset is enriched with annotations that capture protected attributes such as race, gender and emotion. Subsequently, a comprehensive evaluation of the classifier is conducted to identify instances that are misclassified due to biases.
 
 The misclassified samples serve as the foundation for a stable diffusion model. This model generates synthetic data that effectively incorporates the patterns of the misclassified instances. The synthesized data is then seamlessly integrated into the original dataset, augmenting it with original data. A rigorous analysis of the classifier's performance is executed before and after this data augmentation process. This evaluation is pivotal in gauging the impact of data augmentation on classification accuracy and bias mitigation.
 
