@@ -3,6 +3,7 @@ import random
 import torch
 from deepface import DeepFace
 from diffusers import StableDiffusionPipeline
+from PIL import Image
 
 def define_stable_diffusion_model():
     """
@@ -305,3 +306,99 @@ def generate_images_static_prompt(df, pipe, directory, image_path, file_path):
                     total_new_samples = total_new_samples + 1
 
                 total_images = total_images + 1
+
+
+
+def remove_samples(directory, image_path, file_path):
+    """
+    Evaluate image samples and remove entries from CSV mapping if image is black.
+
+    Args:
+        directory (str): Directory where data is stored.
+        image_path (str): Path to the image folder.
+        file_path (str): Path to the CSV file containing image mappings.
+    """
+    # Get the current working directory
+    cwd = os.getcwd()
+    
+    # Construct the absolute file path to the image folder
+    image_path = os.path.join(cwd, '..', directory, image_path)
+    
+    # Load the CSV file with image mappings
+    csv_file_path = os.path.join(cwd, '..', image_path, file_path)
+    image_mappings = pd.read_csv(csv_file_path)
+    image_mappings.columns = ["image_name", "race", "gender", "emotion"]
+    
+    # Iterate over the files in the directory
+    for image_name in os.listdir(image_path):
+        # Construct the absolute file path to the image
+        image_file_path = os.path.join(image_path, image_name)
+        
+        # Open the image using PIL
+        image = Image.open(image_file_path)
+        
+        # Convert the image to a NumPy array
+        image_array = np.array(image)
+        
+        # Check if the image contains only black pixels
+        if np.all(image_array == 0):
+            # Delete the image file
+            os.remove(image_file_path)
+            
+            # Remove the image mapping from the CSV file
+            image_mappings = image_mappings[image_mappings['image_name'] != image_name]
+            image_mappings.to_csv(csv_file_path, index=False)
+            
+            # Provide feedback to the user
+            print(f"Removed {image_name} and its mapping from the CSV.")
+    
+    # Notify user when the process is completed
+    print("Process completed.")
+
+
+def evaluate_and_interact(directory, image_path, file_path):
+    """
+    Evaluate image samples and interactively remove unwanted images.
+
+    Args:
+        directory (str): Directory where data is stored.
+        image_path (str): Path to the image folder.
+        file_path (str): Path to the CSV file containing image mappings.
+    """
+    # Get the current working directory
+    cwd = os.getcwd()
+    
+    # Construct the absolute file path to the image folder
+    image_path = os.path.join(cwd, '..', directory, image_path)
+    
+    # Load the CSV file with image mappings
+    csv_file_path = os.path.join(cwd, '..', directory, file_path)
+    image_mappings = pd.read_csv(csv_file_path)
+    
+    # Iterate over the files in the directory
+    for image_name in os.listdir(image_path):
+        # Construct the absolute file path to the image
+        image_file_path = os.path.join(image_path, image_name)
+        
+        # Open the image using PIL
+        image = Image.open(image_file_path)
+        
+        # Display the image
+        image.show()
+        
+        # Ask the user if they want to keep the image
+        user_input = input("Do you want to keep this image? (y/n): ")
+        
+        if user_input.lower() == 'n':
+            # Delete the image file
+            os.remove(image_file_path)
+            
+            # Remove the image mapping from the CSV file
+            image_mappings = image_mappings[image_mappings['image_name'] != image_name]
+            image_mappings.to_csv(csv_file_path, index=False)
+
+    print("Process completed.")
+
+# Call the function with appropriate arguments
+evaluate_and_interact('Data', 'synthetic_data_augmentation_celebA_vggnet/', 'images_generated_stable_diffusion_vggnet.csv')
+
