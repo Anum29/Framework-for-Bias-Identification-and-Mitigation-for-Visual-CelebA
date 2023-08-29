@@ -10,23 +10,28 @@ Bias identification and mitigation in visual datasets
 
 ## Introduction
 
-The proliferation of data-driven decision-support systems has significantly improved decision-making across diverse sectors. However, these systems can unintentionally create unfair outcomes due to biases present in the data. This research focuses on addressing biases in facial expression, gender, and race recognition, specifically using the CelebA dataset. To tackle these biases, the study suggests a framework to generate synthetic data using a stable diffusion model and examines how this affects the performance of the classifier.
+In the era of data-driven decision-support systems, the enhancement of decision-making across diverse sectors has been remarkable. However, the unintended consequences of these systems can arise from the biases inherently present in the data, leading to unfair outcomes. This research delves into the crucial task of addressing biases within facial expression, gender, and race recognition. Specifically, the study centers on leveraging the CelebA dataset to develop a framework for bias identification and mitigation.
+
+The proposed framework involves generating synthetic data using a stable diffusion model. The central focus is on understanding how the augmentation of training data influences the performance of classifiers. This augmentation aims to mitigate biases related to the protected attributes present in the data, ultimately promoting more equitable outcomes.
 
 <div style="text-align: center;">
     <img src="./architecture.jpg" alt="Architecture" />
 </div>
+The research journey commences with the annotation of the CelebA image dataset. Leveraging the deepface API, the dataset is enriched with annotations that capture protected attributes such as race and gender. Subsequently, a comprehensive evaluation of the classifier is conducted to identify instances that are misclassified due to biases.
 
-
-
-Initially, the CelebA image dataset undergoes annotation, utilizing the deepface API to identify protected attributes. This annotated dataset is subsequently subjected to the model's evaluation to identify misclassified instances. These misclassified samples are then utilized within a stable diffusion model to generate  data, which is subsequently augmented to the original dataset. The performance of the classifier is carefully examined before and after the data augmentation process to assess its impact on the classification accuracy.
+The misclassified samples serve as the foundation for a stable diffusion model. This model generates synthetic data that effectively incorporates the patterns of the misclassified instances. The synthesized data is then seamlessly integrated into the original dataset, augmenting it with original data. A rigorous analysis of the classifier's performance is executed before and after this data augmentation process. This evaluation is pivotal in gauging the impact of data augmentation on classification accuracy and bias mitigation.
 
 ## Getting Started
 
-These instructions will help you set up and run the project on your local machine.
+To set up and run the project on your local machine, follow these instructions:
+
+1. Install required dependencies using the following command:
 
 ```bash
 pip install -r requirements.txt
 ```
+2. Ensure that your Python version is greater than 3.6, as the stable diffusion model relies on this version.
+3. Run the file './Analytics/Data Pipeline.ipynb' to observe the outcomes before and after data augmentation. You have the flexibility to choose between different models (e.g., VGGNet, GoogLeNet, ResNet) and analyze their performance in response to data augmentation.
 
 
 ### Prerequisites
@@ -35,6 +40,6 @@ List any prerequisites or software that needs to be installed before getting sta
 
 For the stable diffusion model, the python version should be > 3.6
 
-Run the file  `'./Analytics/Data Pipeline.ipynb'` to observe output before and after data augmentation.
+Run the file  `'./Analytics/Data Pipeline.ipynb'` to observe output before and after data augmentation. The default model is vggnet. You can change it to googlenet or resnet to see the impact of data augmentation on each model performance separately.
 
 
