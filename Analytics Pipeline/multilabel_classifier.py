@@ -1,9 +1,12 @@
+import os
+import math
 import pandas as pd
 import numpy as np
-import math
-import os
+from matplotlib import pyplot
+from numpy import argmax
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, precision_score
+from sklearn.metrics import precision_recall_curve
 import tensorflow as tf
 from tensorflow.keras.layers import Input, Dense, Flatten, Dropout, Conv2D, MaxPooling2D
 from tensorflow.keras.models import Model
@@ -200,22 +203,65 @@ def make_predictions(model, X_test, y_test, labels):
     Returns:
         tuple: List of failed samples, attribute accuracies, and attribute precisions.
     """
+    # Get the predictions for the test/validation set
     y_pred = model.predict(X_test)
     num_attributes = 14
-    y_pred_binary = (y_pred > 0.5).astype(int)
     
+    optimal_threshold = []
+    for i in range(num_attributes):
+        testy = y_test[:, i]
+        predy = y_pred[:, i]
+    
+        # calculate pr-curve
+        precision, recall, thresholds = precision_recall_curve(testy, predy)
+        # plot the roc curve for the model
+        no_skill = len(testy[testy==1]) / len(testy)
+        pyplot.plot([0,1], [no_skill,no_skill], linestyle='--', label='No Skill')
+        pyplot.plot(recall, precision, marker='.', label='Logistic')
+        # axis labels
+        pyplot.xlabel('Recall')
+        pyplot.ylabel('Precision')
+        pyplot.legend()
+        # show the plot
+        pyplot.show()
+        
+        # convert to f score
+        fscore = (2 * precision * recall) / (precision + recall)
+        # locate the index of the largest f score
+        ix = argmax(fscore)
+        print('Best Threshold=%f, F-Score=%.3f' % (thresholds[ix], fscore[ix]))
+        
+        optimal_threshold.append(thresholds[ix])
+    
+        
+        
+    # Define classification thresholds for each label
+    classification_thresholds = optimal_threshold  # Replace these with your desired thresholds
+    
+    # Predict probabilities for the test set
+    y_pred_prob = vgg16_model.predict(X_test)
+    
+    # Apply classification thresholds to convert probabilities to binary predictions
+    y_pred = (y_pred_prob >= classification_thresholds).astype(int)
+    
+    
+    # Calculate accuracy and precision for each attribute label
     attribute_accuracies = {}
     attribute_precisions = {}
-
+    
     for i in range(num_attributes):
-        y_pred_attribute = y_pred_binary[:, i]
+        y_pred_attribute = y_pred[:, i]
         y_test_attribute = y_test[:, i]
-
+        
         attribute_accuracy = accuracy_score(y_test_attribute, y_pred_attribute)
         attribute_precision = precision_score(y_test_attribute, y_pred_attribute)
+        
+        attribute_accuracies[f'Attribute_{train_encoding.columns[i]}'] = attribute_accuracy * 100
+        attribute_precisions[f'Attribute_{train_encoding.columns[i]}'] = attribute_precision * 100
+        
+        
+    attribute_accuracies
 
-        attribute_accuracies[f'Attribute_{labels.columns[i]}'] = attribute_accuracy * 100
-        attribute_precisions[f'Attribute_{labels.columns[i]}'] = attribute_precision * 100
 
     failed_samples = []
     for i in range(len(y_pred)):
